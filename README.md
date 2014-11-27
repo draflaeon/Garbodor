@@ -21,9 +21,5 @@ Para el inicio entrar a:
   - [ ] Clases de la Base de Datos
   - [ ] Fixtures para los Datos
 
-hola|hola
----------
-que hay|no hay na
-
 [1]: https://github.com/marioalejandro
 [2]: http://draflaeon.github.io/Garbodor
