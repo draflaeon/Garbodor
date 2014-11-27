@@ -11,6 +11,7 @@ body{
 	margin: 0px;
 	padding: 0px;
 	background-color: #fffff0;
+	
 }
 
 img{
@@ -26,10 +27,17 @@ p{
 	margin: auto;
 	text-align: center;
 	font-size: 24px;
-	font-family: serif;
+	/*font-family: serif;*/
+	color: #333333;
+	font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
 }
 
 #logoGitHub{
 	height: 10%;
 	width: 20%
+}
+
+#twitter{
+	height: 5%;
+	width: 10%
 }
