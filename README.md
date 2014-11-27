@@ -15,7 +15,7 @@ Para el inicio entrar a http://localhost/Garbodor/web/app_dev.php/admin/home/
 **Documentos en desarrollo...**
 
 #Falta lo siguiente
-- [] Clases de la Base de Datos
-- [] Fixtures para los Datos
+  - [ ] Clases de la Base de Datos
+  - [ ] Fixtures para los Datos
 
 [1]: https://github.com/marioalejandro
