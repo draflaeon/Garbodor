@@ -1,14 +1,16 @@
 {% extends '::base.html.twig' %}
 
 {% block title %} Admin Home {% endblock %}
-
+{% block stylesheets %} <link rel="stylesheet" type="text/css" href="{{ asset('bundles/garbodor/css/estilos.css') }}"> {% endblock %}
 {% block body %}
     <header>
-    	<lu>
-    		<li>Menu 1</li>
-    		<li>Menu 2</li>
-    		<li>Menu 3</li>
-    		<li>Menu 4</li>
-    	</lu>
+    	<img src="{{ asset('bundles/garbodor/img/logo.png') }}" />
     </header>
+    <section>
+    	<p>
+    		Sitio en construcción, puede consultar el progreso en GitHub.
+    	</p>
+
+    	<a href="http://draflaeon.github.io/Garbodor/"><img id="logoGitHub" src="{{ asset('bundles/garbodor/img/octocat.png') }}" /></a>
+    </section>
 {% endblock %}
