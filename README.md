@@ -20,6 +20,7 @@ Para el inicio entrar a:
 #Falta lo siguiente
   - [ ] Clases de la Base de Datos
   - [ ] Fixtures para los Datos
+  - [ ] Limpiar Código
 
 [1]: https://github.com/marioalejandro
 [2]: http://draflaeon.github.io/Garbodor
