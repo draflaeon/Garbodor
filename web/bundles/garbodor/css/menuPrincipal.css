@@ -1,0 +1,137 @@
+nav > ul
+{
+    height: 41px;
+    width: 100%;
+    background-color: #888;
+    border: solid 1px #6d6d6d;
+    
+    margin: 0;
+    padding: 7px 6px 2px 6px;
+    line-height: 100%;
+    /*position: fixed;*/
+    
+}
+
+nav ul li
+{
+    display: block;
+    float: left;
+    position: relative; /* ni idea que hace************************************/
+    
+    /*padding-top: 10px;*/
+    padding: 0 0 8px;
+    margin: 0 5px;
+}
+
+/* Hipervinculos de primer nivel */
+nav a {
+    
+    /*background-color: red;     /*** TEST MODE ****/
+    
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .3);
+    
+    display: block;
+    padding:  8px 20px;
+    margin: 0;
+    
+}
+nav > ul > li:last-child
+{
+    float: right;
+}
+
+/* Hipervinculos de primer nivel : hover */
+nav ul li a.activa{
+    
+    /*background-color: purple;*/
+    font-size: 1.1em;
+    color: #80CBC4;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .8);
+}
+nav ul li > a:hover {
+    
+    /*background-color: purple;*/
+    color: #03A9F4;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .8);
+}
+
+/* Hipervinculos de segundo nivel : hover */
+/***  , nav ul li:hover li > a //para tercer nivel de anidamiento  */
+/* NO LO USO AUN***
+nav ul li:hover a{    
+	background: none;
+	border: none;
+	color: white;
+	-webkit-box-shadow: none;
+	-moz-box-shadow: none;
+}*/
+
+/* Sub menu listas */
+nav ul ul {
+	background-color: #888;
+    
+	display: none;
+	margin: 0;
+	padding: 0;
+	width: 185px;
+	position: absolute;
+	top: 40px;
+	left: 0;
+	/*border: solid 1px #b4b4b4;*/
+}
+/* dropdown */
+nav ul li:hover  ul {
+	display: block;
+}
+
+nav ul ul li {
+	float: none;
+	margin: 0;
+	padding: 0;
+}
+nav ul ul a {
+	font-weight: normal;
+	text-shadow: 0 1px 1px rgba(0, 0, 0, .9);
+}
+
+/* clearfix */
+nav > ul:after {
+	content: ".";
+	display: block;
+	clear: both;
+	visibility: hidden;
+	line-height: 0;
+	height: 0;
+}
+nav ul {
+	display: inline-block;
+}
+html[xmlns] nav {
+	display: block;
+}
+* html nav > ul {
+	height: 1%;
+}
+
+/*CSS ANTIGUOS*/
+
+/*
+nav ul li a
+{
+    font-size: 1.2em;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, .3); /* ni puta idea*************************//*
+    text-decoration: none; 
+    color: #000;
+    padding: 10px 20px 10px 20px;
+
+    
+    
+}
+nav ul li a:hover
+{
+    color: #ccc;
+}*/

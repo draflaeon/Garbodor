@@ -1,0 +1,40 @@
+#contenido
+{
+    height: 500px;
+    background-color: white;
+    
+    padding-top: 10px;
+    
+}
+#titulo
+{
+    text-align: center;
+}
+
+#areaDeTrabajo
+{
+    padding-top: 10px;
+    font-size: 1em;
+}
+#areaDeTrabajo table
+{
+    margin: 0px auto 0px auto; /*Centrado*/
+}
+#areaDeTrabajo th
+{
+    background-color: #ddd;
+    padding: 2px 4px 2px 4px;
+}
+
+#areaDeTrabajo td
+{
+    padding: 0px 4px 0px 4px;
+}
+#areaDeTrabajo tr:nth-child(even)
+{
+    background-color: #FFE57F;
+}
+#areaDeTrabajo tr:nth-child(odd)
+{
+    background-color: #80CBC4;
+}

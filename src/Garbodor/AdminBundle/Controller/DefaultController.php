@@ -15,6 +15,10 @@ class DefaultController extends Controller
     {
         return $this->render('AdminBundle:Default:home.html.twig');
     }
+    public function menuAction()
+    {
+        return $this->render('AdminBundle:Default:admin.html.twig');
+    }
 }
 
 
