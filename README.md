@@ -10,7 +10,9 @@ El sistema se divide en 4 etapas escenciales.
 Las vistas a cargo de [marioalejandro][1] estarán diseñadas en **HTML5**, **CSS3** y **JS**.
 Luego se les agregará la lógica con PHP a través de TWIG.
 
-Para el inicio entrar a http://localhost/Garbodor/web/app_dev.php/admin/home/
+Para el inicio entrar a: 
+
+    http://localhost/Garbodor/web/app_dev.php/admin/home/
 
 **Documentos en desarrollo...**
 
