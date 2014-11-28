@@ -10,33 +10,41 @@
     <script src="{{ asset('bundles/garbodor/js/bootstrap.min.js') }}"></script>
 {% endblock %}
 {% block body %}
-    <div id="contenedor">
+    <div id="container">
             <!-- Este es el Menu Principal -->
             <nav>
-                <ul>
-                    <li><a href="#" title="Inicio">Inicio</a></li>
-                    <li><a href="#" title="Usuarios">Usuarios</a></li>
-                    <li><a href="#" title="Motor">Motor</a></li>
-                    <li><a href="#" title="Tareas">Tareas</a></li>
-                    <li><a href="#" title="Crear Motor">Crear Motor</a>
-						<ul>
+                <ul class="nav nav-tabs nav-justified">
+                    <li role="presentation" class="active"><a href="#" title="Inicio">Inicio</a></li>
+                    <li role="presentation" ><a href="#" title="Usuarios">Usuarios</a></li>
+                    <li role="presentation" ><a href="#" title="Motor">Motor</a></li>
+                    <li role="presentation" ><a href="#" title="Tareas">Tareas</a></li>
+                    <li role="presentation" >
+                        <a href="#" title="Crear Motor">Crear Motor</a>
+                        <!--
+			<ul>
                             <li><a href="#" title="submenu">CM</a></li>
                             <li><a href="#" title="submenu">submenu 2</a></li>
                             <li><a href="#" title="submenu">submenu 3</a></li>
                             <li><a href="#" title="submenu">submenu 4</a></li>
                         </ul>
-					</li>	
-                    <li><a href="#" title="Crear Usuarios">Crear Usuarios</a>
-						<ul>
+                        -->
+                    </li>	
+                    <li role="presentation" >
+                        <a href="#" title="Crear Usuarios">Crear Usuarios</a>
+                        <!--
+			<ul>
                             <li><a href="#" title="submenu">CU</a></li>
                             <li><a href="#" title="submenu">submenu 2</a></li>
                             <li><a href="#" title="submenu">submenu 3</a></li>
                             <li><a href="#" title="submenu">submenu 4</a></li>
                         </ul>
-			
-					</li>
-                    <li><a href="#" title="Juan Miguel">Juan Miguel</a>
-                        <ul>
+			-->
+                    </li>
+                    <li role="presentation" class="dropdown" >
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Juan Miguel">
+                            Juan Miguel <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
                             <li><a href="#" title="submenu">submenu 1</a></li>
                             <li><a href="#" title="submenu">submenu 2</a></li>
                             <li><a href="#" title="submenu">submenu 3</a></li>
