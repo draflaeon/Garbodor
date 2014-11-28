@@ -5,6 +5,11 @@ admin_homepage:
 admin_bienvenida:
     path: /home/
     defaults: { _controller: AdminBundle:Default:bienvenida }
+    
 admin_menu:
     path: /menu/
     defaults: { _controller: AdminBundle:Default:menu }
+    
+admin_menu_boostrap:
+    path: /menuB/
+    defaults: { _controller: AdminBundle:Default:menuB }
