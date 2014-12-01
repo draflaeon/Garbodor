@@ -1,0 +1,3 @@
+motor_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: MotorBundle:Default:index }

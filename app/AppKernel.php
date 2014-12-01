@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Garbodor\AdminBundle\AdminBundle(),
             new Garbodor\RecepcionBundle\RecepcionBundle(),
             new Garbodor\PresupuestoBundle\PresupuestoBundle(),
+            new Garbodor\MotorBundle\MotorBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

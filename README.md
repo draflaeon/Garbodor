@@ -12,6 +12,17 @@ Las vistas a cargo de [marioalejandro][1] estarán diseñadas en **HTML5**, **CS
 
 La creación de la **Base de Datos** está a cargo de [draflaeon][3], seguirá las normas de **Doctrine** para su creación.
 
+Para generar la base de datos de acuerdo al archivo ``config.yml``.
+
+	php app/console doctrine:database:create
+
+Para generar las tablas a la base de datos.
+
+	php app/console doctrine:schema:create
+
+Al modificar y actualizar las clases/entidades recuerda ejecutar lo siguiente.
+
+	php app/console doctrine:schema:update --force
 
 **Documentos en desarrollo...**
 
