@@ -28,4 +28,4 @@ Para el inicio entrar a:
 
 [1]: https://github.com/marioalejandro
 [2]: http://draflaeon.github.io/Garbodor
-[3]: htto://github.com/draflaeon
+[3]: https://github.com/draflaeon
