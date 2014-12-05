@@ -3,7 +3,7 @@ Sistema de planificaciones para Motores Piddo
 
 Bienvenidos al sistema de planificaciones para Motores Piddo. Nombre Clave: [Garbodor][2].
 
-El sistema se divide en 4 etapas escenciales.
+El sistema se divide en 4 etapas esenciales.
 
 1) Creación de las vistas y los datos
 -------------------------------------
