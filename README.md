@@ -24,6 +24,16 @@ Al modificar y actualizar las clases/entidades recuerda ejecutar lo siguiente.
 
 	php app/console doctrine:schema:update --force
 
+2) Mantenedores
+-------------------
+Como buen sistema se debe desarrollar el CRUD en cada mantenedor. Se empezará con los usuarios, luego los motores, despues las piezas, los trabajos y por último los repuestos.
+
+Para finalizar este apartado se comenzará a ver el taller dentro del sistema.
+
+3) Presupuesto
+-------------------
+Ya con la información en la base de datos se puede comenzar a crear varios presupuestos para los clientes que podrán aprobar o rechazar.
+
 **Documentos en desarrollo...**
 
 5) Temas Extra
