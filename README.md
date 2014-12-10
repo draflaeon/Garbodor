@@ -43,6 +43,10 @@ Ya con la información en la base de datos se puede comenzar a crear varios pres
   - [ ] Fixtures para los Datos
   - [x] Limpiar Código
 
+Vistas de Prueba trabajandose en :
+
+	http://localhost/Garbodor/web/app_dev.php/admin/menu-sin-twig/
+
 Para el inicio entrar a:
 
     http://localhost/Garbodor/web/app_dev.php/admin/home/
