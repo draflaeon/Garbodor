@@ -10,70 +10,67 @@
     <script src="{{ asset('bundles/garbodor/js/bootstrap.js') }}"></script>
 {% endblock %}
 {% block body %}
-    
-            <!-- Este es el Menu Principal -->
-            <nav class="navbar navbar-default" role="navigation">
-                <div class="container-fluid">
-                    <!-- Boton home y Boton de menu colapsado -->
-                    <ul class="nav navbar-nav navbar-right navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <li class="dropdown">
-                          <a href="#" class="dropdown-toggle navbar-brand" data-toggle="dropdown" role="button" aria-expanded="false">Juan Miguel <span class="caret"></span></a>
-                          <ul class="dropdown-menu" role="menu">
-                            <li><a href="#">Acción 1</a></li>
-                            <li><a href="#">Acción 2</a></li>
-                            <li><a href="#">Acción 3</a></li>
-                            <li class="divider"></li>
-                            <li><a href="#">Cerrar sesión</a></li>
-                          </ul>
-                        </li>
-                      </ul>
-                    <!-- Todo el resto de la barra -->
-                    <div class=" collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                        <ul class="nav navbar-nav ">
-                            <!-- Boton 2 -->
-                            <li class="active">
-                                <a href="#" title="Inicio">
-                                    Inicio<span class="sr-only">(current)</span>
-                                </a>
-                            </li>
-                            <!-- Boton 3 --> 
-                            <li><a href="#" title="Usuarios">Usuarios</a></li>
-                            <!-- Boton 4 --> 
-                            <li><a href="#" title="Motor">Motor</a></li>
-                            <!-- Boton 5 --> 
-                            <li><a href="#" title="Tareas">Tareas</a></li>
-                            <!-- Boton 6 --> 
-                            <li>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Crear Motor">Crear Motor <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#" title="submenu">CM</a></li>
-                                    <li><a href="#" title="submenu">submenu 2</a></li>
-                                    <li><a href="#" title="submenu">submenu 3</a></li>
-                                    <li><a href="#" title="submenu">submenu 4</a></li>
-                                </ul>
-                            </li>
-                            <!-- Boton 7 --> 
-                            <li>
-                                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Crear Usuarios">Crear Usuarios <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#" title="submenu">CU</a></li>
-                                    <li><a href="#" title="submenu">submenu 2</a></li>
-                                    <li><a href="#" title="submenu">submenu 3</a></li>
-                                    <li><a href="#" title="submenu">submenu 4</a></li>
-                                </ul>
-                            </li>
+    <!-- Este es el Menu Principal -->
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Boton home y Boton de menu colapsado -->
+            <ul class="nav navbar-nav navbar-right navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle navbar-brand" data-toggle="dropdown" role="button" aria-expanded="false">Juan Miguel <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="#">Acción 1</a></li>
+                        <li><a href="#">Acción 2</a></li>
+                        <li><a href="#">Acción 3</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#">Cerrar sesión</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <!-- Todo el resto de la barra -->
+            <div class=" collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav ">
+                    <!-- Boton 2 -->
+                    <li class="active">
+                        <a href="#" title="Inicio">
+                            Inicio<span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <!-- Boton 3 --> 
+                    <li><a href="#" title="Usuarios">Usuarios</a></li>
+                    <!-- Boton 4 --> 
+                    <li><a href="#" title="Motor">Motor</a></li>
+                    <!-- Boton 5 --> 
+                    <li><a href="#" title="Tareas">Tareas</a></li>
+                    <!-- Boton 6 --> 
+                    <li>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Crear Motor">Crear Motor <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" title="submenu">CM</a></li>
+                            <li><a href="#" title="submenu">submenu 2</a></li>
+                            <li><a href="#" title="submenu">submenu 3</a></li>
+                            <li><a href="#" title="submenu">submenu 4</a></li>
                         </ul>
-                        <!-- Boton 8 --> 
-
-                    </div>
-                </div>
-            </nav>
+                    </li>
+                    <!-- Boton 7 --> 
+                    <li>
+                        <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-expanded="false" title="Crear Usuarios">Crear Usuarios <span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#" title="submenu">CU</a></li>
+                            <li><a href="#" title="submenu">submenu 2</a></li>
+                            <li><a href="#" title="submenu">submenu 3</a></li>
+                            <li><a href="#" title="submenu">submenu 4</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div class="container">
         <!-- Contenido : AREA DE TRABAJO DEL USUARIO Y SUS OPCIONES -->
         <ul class="nav nav-tabs">

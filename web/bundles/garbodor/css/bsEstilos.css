@@ -14,7 +14,8 @@ color: #e7e7e7;
 color: #e7e7e7;
 }
 
-.navbar-default .navbar-brand:hover, .navbar-default .navbar-nav >li > a:hover {
+.navbar-default .navbar-brand:hover, 
+.navbar-default .navbar-nav >li > a:hover {
     
     /*background-color: purple;*/
 /*    color: #03A9F4;
