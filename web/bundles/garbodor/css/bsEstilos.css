@@ -1,0 +1,24 @@
+.navbar-default {
+background-color: #888;
+border-color: #e7e7e7;
+}
+.navbar {
+border-radius: 0;
+}
+
+.navbar-default .navbar-nav > li > a {
+color: #e7e7e7;
+}
+
+.navbar-default .navbar-brand {
+color: #e7e7e7;
+}
+
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-nav >li > a:hover {
+    
+    /*background-color: purple;*/
+/*    color: #03A9F4;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .8);*/
+    color: white;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, .8);
+}
