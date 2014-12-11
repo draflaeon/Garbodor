@@ -1,4 +1,5 @@
 /app/cache/*
 /app/logs/*
+/app/config/parameters.*
 !app/cache/.gitkeep
 !app/logs/.gitkeep
