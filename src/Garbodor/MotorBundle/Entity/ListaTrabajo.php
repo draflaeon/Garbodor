@@ -22,9 +22,8 @@ class ListaTrabajo
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="grupo_trabajo", type="string", length=255)
+     * 
+     * @ORM\ManyToOne(targetEntity="Garbodor\MotorBundle\Entity\GrupoTrabajo")
      */
     private $grupoTrabajo;
 
@@ -46,24 +45,13 @@ class ListaTrabajo
         return $this->id;
     }
 
-    /**
-     * Set grupoTrabajo
-     *
-     * @param string $grupoTrabajo
-     * @return ListaTrabajo
-     */
-    public function setGrupoTrabajo($grupoTrabajo)
+    public function setGrupoTrabajo(\Garbodor\MotorBundle\Entity\GrupoTrabajo $grupoTrabajo)
     {
         $this->grupoTrabajo = $grupoTrabajo;
     
         return $this;
     }
 
-    /**
-     * Get grupoTrabajo
-     *
-     * @return string 
-     */
     public function getGrupoTrabajo()
     {
         return $this->grupoTrabajo;
@@ -88,6 +76,11 @@ class ListaTrabajo
      * @return string 
      */
     public function getNombreTrabajo()
+    {
+        return $this->nombreTrabajo;
+    }
+
+    public function __toString()
     {
         return $this->nombreTrabajo;
     }

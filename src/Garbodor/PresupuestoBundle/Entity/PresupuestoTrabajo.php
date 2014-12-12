@@ -13,25 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
 class PresupuestoTrabajo
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="presupuesto", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Garbodor\PresupuestoBundle\Entity\Presupuesto")
      */
     private $presupuesto;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="trabajo", type="string", length=255)
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Garbodor\MotorBundle\Entity\ListaTrabajo")
      */
     private $trabajo;
 
@@ -59,48 +48,26 @@ class PresupuestoTrabajo
     {
         return $this->id;
     }
-
-    /**
-     * Set presupuesto
-     *
-     * @param string $presupuesto
-     * @return PresupuestoTrabajo
-     */
-    public function setPresupuesto($presupuesto)
+    
+    public function setPresupuesto(\Garbodor\PresupuestoBundle\Entity\Presupuesto $presupuesto)
     {
         $this->presupuesto = $presupuesto;
     
         return $this;
     }
 
-    /**
-     * Get presupuesto
-     *
-     * @return string 
-     */
     public function getPresupuesto()
     {
         return $this->presupuesto;
     }
 
-    /**
-     * Set trabajo
-     *
-     * @param string $trabajo
-     * @return PresupuestoTrabajo
-     */
-    public function setTrabajo($trabajo)
+    public function setTrabajo(\Garbodor\MotorBundle\Entity\ListaTrabajo $trabajo)
     {
         $this->trabajo = $trabajo;
     
         return $this;
     }
 
-    /**
-     * Get trabajo
-     *
-     * @return string 
-     */
     public function getTrabajo()
     {
         return $this->trabajo;

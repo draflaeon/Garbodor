@@ -29,9 +29,8 @@ class Casillero
     private $numeroCasillero;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="presupuesto", type="string", length=255)
+     * 
+     * @ORM\ManyToOne(targetEntity="Garbodor\PresupuestoBundle\Entity\Presupuesto")
      */
     private $presupuesto;
 
@@ -76,24 +75,13 @@ class Casillero
         return $this->numeroCasillero;
     }
 
-    /**
-     * Set presupuesto
-     *
-     * @param string $presupuesto
-     * @return Casillero
-     */
-    public function setPresupuesto($presupuesto)
+    public function setPresupuesto(\Garbodor\PresupuestoBundle\Entity\Presupuesto $presupuesto)
     {
         $this->presupuesto = $presupuesto;
     
         return $this;
     }
 
-    /**
-     * Get presupuesto
-     *
-     * @return string 
-     */
     public function getPresupuesto()
     {
         return $this->presupuesto;

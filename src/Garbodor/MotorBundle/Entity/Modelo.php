@@ -22,9 +22,8 @@ class Modelo
     private $id;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="marca", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Garbodor\MotorBundle\Entity\Marca")
      */
     private $marca;
 
@@ -46,24 +45,13 @@ class Modelo
         return $this->id;
     }
 
-    /**
-     * Set marca
-     *
-     * @param string $marca
-     * @return Modelo
-     */
-    public function setMarca($marca)
+    public function setMarca(\Garbodor\MotorBundle\Entity\Marca $marca)
     {
         $this->marca = $marca;
     
         return $this;
     }
 
-    /**
-     * Get marca
-     *
-     * @return string 
-     */
     public function getMarca()
     {
         return $this->marca;
@@ -88,6 +76,11 @@ class Modelo
      * @return string 
      */
     public function getNombreModelo()
+    {
+        return $this->nombreModelo;
+    }
+
+    public function __toString()
     {
         return $this->nombreModelo;
     }

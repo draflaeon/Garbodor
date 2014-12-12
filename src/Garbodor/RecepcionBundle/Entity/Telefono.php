@@ -22,9 +22,8 @@ class Telefono
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="cliente", type="string", length=255)
+     * 
+     * @ORM\ManyToOne(targetEntity="Garbodor\RecepcionBundle\Entity\Cliente")
      */
     private $cliente;
 
@@ -53,24 +52,13 @@ class Telefono
         return $this->id;
     }
 
-    /**
-     * Set cliente
-     *
-     * @param string $cliente
-     * @return Telefono
-     */
-    public function setCliente($cliente)
+    public function setCliente(\Garbodor\RecepcionBundle\Entity\Cliente $cliente)
     {
         $this->cliente = $cliente;
     
         return $this;
     }
 
-    /**
-     * Get cliente
-     *
-     * @return string 
-     */
     public function getCliente()
     {
         return $this->cliente;

@@ -28,11 +28,10 @@ class ListaPrecio
      */
     private $tipoMotor;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="trabajo", type="string", length=255)
-     */
+   /** 
+    *
+    * @ORM\ManyToOne(targetEntity="Garbodor\MotorBundle\Entity\ListaTrabajo")
+    */
     private $trabajo;
 
     /**
@@ -76,24 +75,13 @@ class ListaPrecio
         return $this->tipoMotor;
     }
 
-    /**
-     * Set trabajo
-     *
-     * @param string $trabajo
-     * @return ListaPrecio
-     */
-    public function setTrabajo($trabajo)
+    public function setTrabajo(\Garbodor\MotorBundle\Entity\ListaTrabajo $trabajo)
     {
         $this->trabajo = $trabajo;
     
         return $this;
     }
 
-    /**
-     * Get trabajo
-     *
-     * @return string 
-     */
     public function getTrabajo()
     {
         return $this->trabajo;

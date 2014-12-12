@@ -22,9 +22,8 @@ class ListaPieza
     private $id;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="grupo_pieza", type="string", length=255)
+     * 
+     * @ORM\ManyToOne(targetEntity="Garbodor\MotorBundle\Entity\GrupoPieza")
      */
     private $grupoPieza;
 
@@ -46,24 +45,13 @@ class ListaPieza
         return $this->id;
     }
 
-    /**
-     * Set grupoPieza
-     *
-     * @param string $grupoPieza
-     * @return ListaPieza
-     */
-    public function setGrupoPieza($grupoPieza)
+    public function setGrupoPieza(\Garbodor\MotorBundle\Entity\GrupoPieza $grupoPieza)
     {
         $this->grupoPieza = $grupoPieza;
     
         return $this;
     }
 
-    /**
-     * Get grupoPieza
-     *
-     * @return string 
-     */
     public function getGrupoPieza()
     {
         return $this->grupoPieza;

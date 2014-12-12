@@ -91,4 +91,9 @@ class GrupoPieza
     {
         return $this->descripcionGrupo;
     }
+
+    public function __toString()
+    {
+        return $this->nombreGrupoPieza;
+    }
 }

@@ -22,9 +22,8 @@ class Motor
     private $id;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="modelo", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Garbodor\MotorBundle\Entity\Modelo")
      */
     private $modelo;
 
@@ -53,24 +52,13 @@ class Motor
         return $this->id;
     }
 
-    /**
-     * Set modelo
-     *
-     * @param string $modelo
-     * @return Motor
-     */
-    public function setModelo($modelo)
+    public function setModelo(\Garbodor\MotorBundle\Entity\Modelo $modelo)
     {
         $this->modelo = $modelo;
     
         return $this;
     }
-
-    /**
-     * Get modelo
-     *
-     * @return string 
-     */
+    
     public function getModelo()
     {
         return $this->modelo;
@@ -120,5 +108,10 @@ class Motor
     public function getTipo()
     {
         return $this->tipo;
+    }
+    
+    public function __toString()
+    {
+        return $this->serieMotor;
     }
 }

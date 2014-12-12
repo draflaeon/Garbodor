@@ -61,4 +61,9 @@ class ListaRepuesto
     {
         return $this->nombreRepuesto;
     }
+
+    public function __toString()
+    {
+        return $this->nombreRepuesto;
+    }
 }

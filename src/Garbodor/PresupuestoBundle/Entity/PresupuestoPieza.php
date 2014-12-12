@@ -13,25 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
 class PresupuestoPieza
 {
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
      * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="presupuesto", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Garbodor\PresupuestoBundle\Entity\Presupuesto")
      */
     private $presupuesto;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="pieza", type="string", length=255)
+     * @ORM\Id
+     * @ORM\ManyToOne(targetEntity="Garbodor\MotorBundle\Entity\ListaPieza")
      */
     private $pieza;
 
@@ -53,47 +42,25 @@ class PresupuestoPieza
         return $this->id;
     }
 
-    /**
-     * Set presupuesto
-     *
-     * @param string $presupuesto
-     * @return PresupuestoPieza
-     */
-    public function setPresupuesto($presupuesto)
+    public function setPresupuesto(\Garbodor\PresupuestoBundle\Entity\Presupuesto $presupuesto)
     {
         $this->presupuesto = $presupuesto;
     
         return $this;
     }
 
-    /**
-     * Get presupuesto
-     *
-     * @return string 
-     */
     public function getPresupuesto()
     {
         return $this->presupuesto;
     }
 
-    /**
-     * Set pieza
-     *
-     * @param string $pieza
-     * @return PresupuestoPieza
-     */
-    public function setPieza($pieza)
+    public function setPieza(\Garbodor\MotorBundle\Entity\ListaPieza $pieza)
     {
         $this->pieza = $pieza;
     
         return $this;
     }
 
-    /**
-     * Get pieza
-     *
-     * @return string 
-     */
     public function getPieza()
     {
         return $this->pieza;

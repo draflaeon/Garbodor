@@ -22,9 +22,8 @@ class Presupuesto
     private $id;
 
     /**
-     * @var string
      *
-     * @ORM\Column(name="motor", type="string", length=255)
+     * @ORM\ManyToOne(targetEntity="Garbodor\MotorBundle\Entity\Motor")
      */
     private $motor;
 
@@ -94,25 +93,14 @@ class Presupuesto
     {
         return $this->id;
     }
-
-    /**
-     * Set motor
-     *
-     * @param string $motor
-     * @return Presupuesto
-     */
-    public function setMotor($motor)
+    
+    public function setMotor(\Garbodor\MotorBundle\Entity\Modelo $motor)
     {
         $this->motor = $motor;
     
         return $this;
     }
 
-    /**
-     * Get motor
-     *
-     * @return string 
-     */
     public function getMotor()
     {
         return $this->motor;
