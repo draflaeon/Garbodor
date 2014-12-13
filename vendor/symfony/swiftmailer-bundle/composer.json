@@ -26,10 +26,12 @@
         "symfony/config": "~2.1",
         "symfony/yaml": "~2.1"
     },
-    "autoload": {
-        "psr-0": { "Symfony\\Bundle\\SwiftmailerBundle": "" }
+    "suggest": {
+        "psr/log": "Allows logging"
     },
-    "target-dir": "Symfony/Bundle/SwiftmailerBundle",
+    "autoload": {
+        "psr-4": { "Symfony\\Bundle\\SwiftmailerBundle\\": "" }
+    },
     "extra": {
         "branch-alias": {
             "dev-master": "2.3-dev"
