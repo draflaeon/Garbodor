@@ -26,35 +26,35 @@ class Usuario
      *
      * @ORM\Column(name="rut_usuario", type="integer")
      */
-    private $rutUsuario;
+    private $rut;
 
     /**
      * @var string
      *
      * @ORM\Column(name="dv_usuario", type="string", length=2)
      */
-    private $dvUsuario;
+    private $digitoVerificador;
 
     /**
      * @var string
      *
      * @ORM\Column(name="nombre_usuario", type="string", length=255)
      */
-    private $nombreUsuario;
+    private $nombre;
 
     /**
      * @var string
      *
      * @ORM\Column(name="apellido_usuario", type="string", length=255)
      */
-    private $apellidoUsuario;
+    private $apellido;
 
     /**
      * @var string
      *
      * @ORM\Column(name="rol_usuario", type="string", length=255)
      */
-    private $rolUsuario;
+    private $rol;
 
     /**
      * @var string
@@ -82,118 +82,118 @@ class Usuario
     }
 
     /**
-     * Set rutUsuario
+     * Set rut
      *
-     * @param integer $rutUsuario
+     * @param integer $rut
      * @return Usuario
      */
-    public function setRutUsuario($rutUsuario)
+    public function setRut($rut)
     {
-        $this->rutUsuario = $rutUsuario;
+        $this->rut = $rut;
     
         return $this;
     }
 
     /**
-     * Get rutUsuario
+     * Get rut
      *
      * @return integer 
      */
-    public function getRutUsuario()
+    public function getRut()
     {
-        return $this->rutUsuario;
+        return $this->rut;
     }
 
     /**
-     * Set dvUsuario
+     * Set digitoVerificador
      *
-     * @param string $dvUsuario
+     * @param string $digitoVerificador
      * @return Usuario
      */
-    public function setDvUsuario($dvUsuario)
+    public function setDigitoVerificador($digitoVerificador)
     {
-        $this->dvUsuario = $dvUsuario;
+        $this->digitoVerificador = $digitoVerificador;
     
         return $this;
     }
 
     /**
-     * Get dvUsuario
+     * Get digitoVerificador
      *
      * @return string 
      */
-    public function getDvUsuario()
+    public function getDigitoVerificador()
     {
-        return $this->dvUsuario;
+        return $this->digitoVerificador;
     }
 
     /**
-     * Set nombreUsuario
+     * Set nombre
      *
-     * @param string $nombreUsuario
+     * @param string $nombre
      * @return Usuario
      */
-    public function setNombreUsuario($nombreUsuario)
+    public function setNombre($nombre)
     {
-        $this->nombreUsuario = $nombreUsuario;
+        $this->nombre = $nombre;
     
         return $this;
     }
 
     /**
-     * Get nombreUsuario
+     * Get nombre
      *
      * @return string 
      */
-    public function getNombreUsuario()
+    public function getNombre()
     {
-        return $this->nombreUsuario;
+        return $this->nombre;
     }
 
     /**
-     * Set apellidoUsuario
+     * Set apellido
      *
-     * @param string $apellidoUsuario
+     * @param string $apellido
      * @return Usuario
      */
-    public function setApellidoUsuario($apellidoUsuario)
+    public function setApellido($apellido)
     {
-        $this->apellidoUsuario = $apellidoUsuario;
+        $this->apellido = $apellido;
     
         return $this;
     }
 
     /**
-     * Get apellidoUsuario
+     * Get apellido
      *
      * @return string 
      */
-    public function getApellidoUsuario()
+    public function getApellido()
     {
-        return $this->apellidoUsuario;
+        return $this->apellido;
     }
 
     /**
-     * Set rolUsuario
+     * Set rol
      *
-     * @param string $rolUsuario
+     * @param string $rol
      * @return Usuario
      */
-    public function setRolUsuario($rolUsuario)
+    public function setRol($rol)
     {
-        $this->rolUsuario = $rolUsuario;
+        $this->rol = $rol;
     
         return $this;
     }
 
     /**
-     * Get rolUsuario
+     * Get rol
      *
      * @return string 
      */
-    public function getRolUsuario()
+    public function getRol()
     {
-        return $this->rolUsuario;
+        return $this->rol;
     }
 
     /**

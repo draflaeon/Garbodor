@@ -1,28 +1,22 @@
 <?php
-/*
- * (c) Javier Eguiluz <javier.eguiluz@gmail.com>
- *
- * Este archivo pertenece a la aplicación de prueba Cupon.
- * El código fuente de la aplicación incluye un archivo llamado LICENSE
- * con toda la información sobre el copyright y la licencia.
- */
-namespace Cupon\UsuarioBundle\DataFixtures\ORM;
+namespace Garbodor\RecepcionBundle\DataFixtures\ORM;
+
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Cupon\CiudadBundle\Entity\Ciudad;
-use Cupon\UsuarioBundle\Entity\Usuario;
+
+use Garbodor\RecepcionBundle\Entity\Usuario;
 /**
  * Fixtures de la entidad Usuario.
- * Crea 500 usuarios de prueba con información muy realista.
+ * Crea usuarios de prueba con información muy realista.
  */
 class Usuarios extends AbstractFixture implements OrderedFixtureInterface, ContainerAwareInterface
 {
     public function getOrder()
     {
-        return 40;
+        return 10;
     }
     private $container;
     public function setContainer(ContainerInterface $container = null)
@@ -32,11 +26,26 @@ class Usuarios extends AbstractFixture implements OrderedFixtureInterface, Conta
     public function load(ObjectManager $manager)
     {
         // Obtener todas las ciudades de la base de datos
-        $ciudades = $manager->getRepository('CiudadBundle:Ciudad')->findAll();
+        $arrayDeUsuarios = array(
+                                array(  "rut" => "16813163",
+                                        "digitoVerificador" => "1",
+                                        "nombre" => "Mario",
+                                        "apellido" => "Vásquez",
+                                        "rol" => "desarrollador",
+                                        "password" => "1234",
+                                    ),
+                                array(  "rut" => "9999",
+                                        "digitoVerificador" => "9",
+                                        "nombre" => "Sebastian",
+                                        "apellido" => "Gómez",
+                                        "rol" => "desarrollador",
+                                        "password" => "1234",
+                                    ),
+                                );
         for ($i=1; $i<=500; $i++) {
             $usuario = new Usuario();
-            $usuario->setNombre($this->getNombre());
-            $usuario->setApellidos($this->getApellidos());
+            $usuario->setNombre($arrayDeUsuarios[i-1]["nombre"]);
+            $usuario->setApellido($this->getApellidos());
             $usuario->setEmail('usuario'.$i.'@localhost');
             $usuario->setSalt(base_convert(sha1(uniqid(mt_rand(), true)), 16, 36));
             $passwordEnClaro = 'usuario'.$i;
