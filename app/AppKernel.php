@@ -20,6 +20,7 @@ class AppKernel extends Kernel
             new Garbodor\RecepcionBundle\RecepcionBundle(),
             new Garbodor\PresupuestoBundle\PresupuestoBundle(),
             new Garbodor\MotorBundle\MotorBundle(),
+            new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

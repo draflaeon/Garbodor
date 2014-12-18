@@ -4,9 +4,3 @@ admin_bienvenida:
 admin_menu:
     path: /menu/
     defaults: { _controller: AdminBundle:Default:menu }
-admin_menu_boostrap:
-    path: /menuB/
-    defaults: { _controller: AdminBundle:Default:menuB }
-admin_menu_boostrap_sin_twig:
-    path: /menu-sin-twig/
-    defaults: { _controller: AdminBundle:Default:menuSinTwig }
