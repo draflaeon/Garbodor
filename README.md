@@ -51,12 +51,25 @@ Para el inicio entrar a:
 
     http://localhost/Garbodor/web/app_dev.php/admin/home/
 	
-&) Algunos Recordatorios para Git
+&) Ayuda memoria
 -------------------
-### Comitear
+### Usar Git
 
-	git 
+	[Git en unos minutos][4]
+	
+### Para Symfony2 y Doctrine
+
+	php app/console  generate:bundle --Nuevo Bundle
+	
+	php app/console doctrine:generate:Entity --Nueva tablas
+	
+	php app/console doctrine:database:create --Crea nueva BD (config.yml)
+	
+	php app/console doctrine:schema:create --Clases a tablas en la BD
+	
+	php app/console doctrine:schema:update --force --Actualiza la BD con las entidades nuevas
 
 [1]: https://github.com/marioalejandro
 [2]: http://draflaeon.github.io/Garbodor
 [3]: https://github.com/draflaeon
+[4]: http://rogerdudler.github.io/git-guide/
