@@ -50,6 +50,12 @@ Vistas de Prueba trabajandose en :
 Para el inicio entrar a:
 
     http://localhost/Garbodor/web/app_dev.php/admin/home/
+	
+&) Algunos Recordatorios para Git
+-------------------
+### Comitear
+
+	git 
 
 [1]: https://github.com/marioalejandro
 [2]: http://draflaeon.github.io/Garbodor
