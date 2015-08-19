@@ -51,7 +51,7 @@ Para el inicio entrar a:
 
     http://localhost/Garbodor/web/app_dev.php/admin/home/
 	
-&) Ayuda memoria
+6) Ayuda memoria
 -------------------
 ### Usar Git
 
