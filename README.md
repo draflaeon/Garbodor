@@ -55,7 +55,7 @@ Para el inicio entrar a:
 -------------------
 ### Usar Git
 
-	[Git en unos minutos][4]
+[Git en unos minutos][4]
 	
 ### Para Symfony2 y Doctrine
 
