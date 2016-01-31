@@ -95,7 +95,7 @@ class Translator extends BaseTranslator
 
         $this->assertValidLocale($locale);
 
-        $cache = new ConfigCache($this->options['cache_dir'].'/catalogue.'.$locale.'.php', $this->options['debug']);
+        $cache = new ConfigCache($this->getCatalogueCachePath($locale), $this->options['debug']);
         if (!$cache->isFresh()) {
             $this->initialize();
 
@@ -108,9 +108,9 @@ class Translator extends BaseTranslator
                 $fallbackSuffix = ucfirst(preg_replace($replacementPattern, '_', $fallback));
                 $currentSuffix = ucfirst(preg_replace($replacementPattern, '_', $current));
 
-                $fallbackContent .= sprintf(<<<EOF
-\$catalogue%s = new MessageCatalogue('%s', %s);
-\$catalogue%s->addFallbackCatalogue(\$catalogue%s);
+                $fallbackContent .= sprintf(<<<'EOF'
+$catalogue%s = new MessageCatalogue('%s', %s);
+$catalogue%s->addFallbackCatalogue($catalogue%s);
 
 
 EOF
@@ -156,5 +156,10 @@ EOF
                 $this->addLoader($alias, $this->container->get($id));
             }
         }
+    }
+
+    private function getCatalogueCachePath($locale)
+    {
+        return $this->options['cache_dir'].'/catalogue.'.$locale.'.'.sha1(serialize($this->getFallbackLocales())).'.php';
     }
 }

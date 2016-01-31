@@ -40,6 +40,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         require_once self::$fixturesPath.'/Foo2Command.php';
         require_once self::$fixturesPath.'/Foo3Command.php';
         require_once self::$fixturesPath.'/Foo4Command.php';
+        require_once self::$fixturesPath.'/FooSubnamespaced1Command.php';
+        require_once self::$fixturesPath.'/FooSubnamespaced2Command.php';
     }
 
     protected function normalizeLineBreaks($text)
@@ -184,6 +186,14 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('foo', $application->findNamespace('f'), '->findNamespace() finds a namespace given an abbreviation');
         $application->add(new \Foo2Command());
         $this->assertEquals('foo', $application->findNamespace('foo'), '->findNamespace() returns the given namespace if it exists');
+    }
+
+    public function testFindNamespaceWithSubnamespaces()
+    {
+        $application = new Application();
+        $application->add(new \FooSubnamespaced1Command());
+        $application->add(new \FooSubnamespaced2Command());
+        $this->assertEquals('foo', $application->findNamespace('foo'), '->findNamespace() returns commands even if the commands are only contained in subnamespaces');
     }
 
     /**
@@ -414,8 +424,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testAsText()
+    /**
+     * @group legacy
+     */
+    public function testLegacyAsText()
     {
+        $this->iniSet('error_reporting', -1 & E_USER_DEPRECATED);
+
         $application = new Application();
         $application->add(new \FooCommand());
         $this->ensureStaticCommandHelp($application);
@@ -423,8 +438,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertStringEqualsFile(self::$fixturesPath.'/application_astext2.txt', $this->normalizeLineBreaks($application->asText('foo')), '->asText() returns a text representation of the application');
     }
 
-    public function testAsXml()
+    /**
+     * @group legacy
+     */
+    public function testLegacyAsXml()
     {
+        $this->iniSet('error_reporting', -1 & E_USER_DEPRECATED);
+
         $application = new Application();
         $application->add(new \FooCommand());
         $this->ensureStaticCommandHelp($application);
@@ -469,6 +489,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->assertStringEqualsFile(self::$fixturesPath.'/application_renderexception4.txt', $tester->getDisplay(true), '->renderException() wraps messages when they are bigger than the terminal');
     }
 
+    /**
+     * @requires extension mbstring
+     */
     public function testRenderExceptionWithDoubleWidthCharacters()
     {
         $application = $this->getMock('Symfony\Component\Console\Application', array('getTerminalWidth'));
@@ -765,10 +788,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     public function testRunWithDispatcher()
     {
-        if (!class_exists('Symfony\Component\EventDispatcher\EventDispatcher')) {
-            $this->markTestSkipped('The "EventDispatcher" component is not available');
-        }
-
         $application = new Application();
         $application->setAutoExit(false);
         $application->setDispatcher($this->getDispatcher());
@@ -779,7 +798,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $tester = new ApplicationTester($application);
         $tester->run(array('command' => 'foo'));
-        $this->assertEquals('before.foo.after.', $tester->getDisplay());
+        $this->assertEquals('before.foo.after.'.PHP_EOL, $tester->getDisplay());
     }
 
     /**
@@ -788,10 +807,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     public function testRunWithExceptionAndDispatcher()
     {
-        if (!class_exists('Symfony\Component\EventDispatcher\EventDispatcher')) {
-            $this->markTestSkipped('The "EventDispatcher" component is not available');
-        }
-
         $application = new Application();
         $application->setDispatcher($this->getDispatcher());
         $application->setAutoExit(false);
@@ -807,10 +822,6 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
     public function testRunDispatchesAllEventsWithException()
     {
-        if (!class_exists('Symfony\Component\EventDispatcher\EventDispatcher')) {
-            $this->markTestSkipped('The "EventDispatcher" component is not available');
-        }
-
         $application = new Application();
         $application->setDispatcher($this->getDispatcher());
         $application->setAutoExit(false);
@@ -823,7 +834,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $tester = new ApplicationTester($application);
         $tester->run(array('command' => 'foo'));
-        $this->assertContains('before.foo.after.caught.', $tester->getDisplay());
+        $this->assertContains('before.foo.caught.after.', $tester->getDisplay());
     }
 
     protected function getDispatcher()
@@ -833,12 +844,12 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             $event->getOutput()->write('before.');
         });
         $dispatcher->addListener('console.terminate', function (ConsoleTerminateEvent $event) {
-            $event->getOutput()->write('after.');
+            $event->getOutput()->writeln('after.');
 
             $event->setExitCode(128);
         });
         $dispatcher->addListener('console.exception', function (ConsoleExceptionEvent $event) {
-            $event->getOutput()->writeln('caught.');
+            $event->getOutput()->write('caught.');
 
             $event->setException(new \LogicException('caught.', $event->getExitCode(), $event->getException()));
         });

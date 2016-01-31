@@ -196,14 +196,26 @@ abstract class FrameworkExtensionTest extends TestCase
             '->registerTranslatorConfiguration() finds Form translation resources'
         );
         $ref = new \ReflectionClass('Symfony\Component\Security\Core\SecurityContext');
+        $ref = dirname($ref->getFileName());
+        if (!file_exists($ref.'/composer.json')) {
+            $ref = dirname($ref);
+        }
         $this->assertContains(
-            strtr(dirname(dirname($ref->getFileName())).'/Resources/translations/security.en.xlf', '/', DIRECTORY_SEPARATOR),
+            strtr($ref.'/Resources/translations/security.en.xlf', '/', DIRECTORY_SEPARATOR),
             $files,
             '->registerTranslatorConfiguration() finds Security translation resources'
         );
 
         $calls = $container->getDefinition('translator.default')->getMethodCalls();
         $this->assertEquals(array('fr'), $calls[0][1][0]);
+    }
+
+    public function testTranslatorMultipleFallbacks()
+    {
+        $container = $this->createContainerFromFile('translator_fallbacks');
+
+        $calls = $container->getDefinition('translator.default')->getMethodCalls();
+        $this->assertEquals(array('en', 'fr'), $calls[0][1][0]);
     }
 
     /**
@@ -235,10 +247,6 @@ abstract class FrameworkExtensionTest extends TestCase
 
     public function testAnnotations()
     {
-        if (!class_exists('Doctrine\\Common\\Version')) {
-            $this->markTestSkipped('Doctrine is not available.');
-        }
-
         $container = $this->createContainerFromFile('full');
 
         $this->assertEquals($container->getParameter('kernel.cache_dir').'/annotations', $container->getDefinition('annotations.file_cache_reader')->getArgument(1));
@@ -269,7 +277,7 @@ abstract class FrameworkExtensionTest extends TestCase
 
     public function testValidationPaths()
     {
-        require_once __DIR__."/Fixtures/TestBundle/TestBundle.php";
+        require_once __DIR__.'/Fixtures/TestBundle/TestBundle.php';
 
         $container = $this->createContainerFromFile('validation_annotations', array(
             'kernel.bundles' => array('TestBundle' => 'Symfony\Bundle\FrameworkBundle\Tests\TestBundle'),

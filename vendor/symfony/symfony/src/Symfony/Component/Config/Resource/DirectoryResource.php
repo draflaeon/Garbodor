@@ -38,7 +38,7 @@ class DirectoryResource implements ResourceInterface, \Serializable
      */
     public function __toString()
     {
-        return (string) $this->resource;
+        return md5(serialize(array($this->resource, $this->pattern)));
     }
 
     /**
@@ -50,7 +50,7 @@ class DirectoryResource implements ResourceInterface, \Serializable
     }
 
     /**
-     * Returns the pattern to restrict monitored files
+     * Returns the pattern to restrict monitored files.
      *
      * @return string|null
      */

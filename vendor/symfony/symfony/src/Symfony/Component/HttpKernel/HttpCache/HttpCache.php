@@ -24,8 +24,6 @@ use Symfony\Component\HttpFoundation\Response;
  * Cache provides HTTP caching.
  *
  * @author Fabien Potencier <fabien@symfony.com>
- *
- * @api
  */
 class HttpCache implements HttpKernelInterface, TerminableInterface
 {
@@ -143,7 +141,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     }
 
     /**
-     * Gets the Kernel instance
+     * Gets the Kernel instance.
      *
      * @return HttpKernelInterface An HttpKernelInterface instance
      */
@@ -153,7 +151,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
     }
 
     /**
-     * Gets the Esi instance
+     * Gets the Esi instance.
      *
      * @return Esi An Esi instance
      */
@@ -164,8 +162,6 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @api
      */
     public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
     {
@@ -194,7 +190,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
         $this->restoreResponseBody($request, $response);
 
-        $response->setDate(new \DateTime(null, new \DateTimeZone('UTC')));
+        $response->setDate(\DateTime::createFromFormat('U', time(), new \DateTimeZone('UTC')));
 
         if (HttpKernelInterface::MASTER_REQUEST === $type && $this->options['debug']) {
             $response->headers->set('X-Symfony-Cache', $this->getLog());
@@ -217,8 +213,6 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @api
      */
     public function terminate(Request $request, Response $response)
     {
@@ -367,7 +361,7 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         // We keep the etags from the client to handle the case when the client
         // has a different private valid entry which is not cached here.
         $cachedEtags = $entry->getEtag() ? array($entry->getEtag()) : array();
-        $requestEtags = $request->getEtags();
+        $requestEtags = $request->getETags();
         if ($etags = array_unique(array_merge($cachedEtags, $requestEtags))) {
             $subRequest->headers->set('if_none_match', implode(', ', $etags));
         }

@@ -109,11 +109,11 @@ Resources
 
 Silex integration:
 
-https://github.com/fabpot/Silex/blob/master/src/Silex/Provider/ValidatorServiceProvider.php
+https://github.com/silexphp/Silex/blob/master/src/Silex/Provider/ValidatorServiceProvider.php
 
 Documentation:
 
-http://symfony.com/doc/2.3/book/validation.html
+https://symfony.com/doc/2.3/book/validation.html
 
 JSR-303 Specification:
 
@@ -122,5 +122,5 @@ http://jcp.org/en/jsr/detail?id=303
 You can run the unit tests with the following command:
 
     $ cd path/to/Symfony/Component/Validator/
-    $ composer.phar install
+    $ composer install
     $ phpunit

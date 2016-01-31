@@ -46,21 +46,21 @@ class DialogHelper extends Helper
 
         $messages = (array) $question;
         foreach ($choices as $key => $value) {
-            $messages[] = sprintf("  [<info>%-${width}s</info>] %s", $key, $value);
+            $messages[] = sprintf("  [<info>%-{$width}s</info>] %s", $key, $value);
         }
 
         $output->writeln($messages);
 
         $result = $this->askAndValidate($output, '> ', function ($picked) use ($choices, $errorMessage, $multiselect) {
             // Collapse all spaces.
-            $selectedChoices = str_replace(" ", "", $picked);
+            $selectedChoices = str_replace(' ', '', $picked);
 
             if ($multiselect) {
                 // Check for a separated comma values
                 if (!preg_match('/^[a-zA-Z0-9_-]+(?:,[a-zA-Z0-9_-]+)*$/', $selectedChoices, $matches)) {
                     throw new \InvalidArgumentException(sprintf($errorMessage, $picked));
                 }
-                $selectedChoices = explode(",", $selectedChoices);
+                $selectedChoices = explode(',', $selectedChoices);
             } else {
                 $selectedChoices = array($picked);
             }
@@ -71,7 +71,7 @@ class DialogHelper extends Helper
                 if (empty($choices[$value])) {
                     throw new \InvalidArgumentException(sprintf($errorMessage, $value));
                 }
-                array_push($multiselectChoices, $value);
+                $multiselectChoices[] = $value;
             }
 
             if ($multiselect) {
@@ -131,7 +131,7 @@ class DialogHelper extends Helper
                 // Backspace Character
                 if ("\177" === $c) {
                     if (0 === $numMatches && 0 !== $i) {
-                        $i--;
+                        --$i;
                         // Move cursor backwards
                         $output->write("\033[1D");
                     }
@@ -184,7 +184,7 @@ class DialogHelper extends Helper
                 } else {
                     $output->write($c);
                     $ret .= $c;
-                    $i++;
+                    ++$i;
 
                     $numMatches = 0;
                     $ofs = 0;
@@ -243,7 +243,7 @@ class DialogHelper extends Helper
     }
 
     /**
-     * Asks a question to the user, the response is hidden
+     * Asks a question to the user, the response is hidden.
      *
      * @param OutputInterface $output   An Output instance
      * @param string|array    $question The question
@@ -255,7 +255,7 @@ class DialogHelper extends Helper
      */
     public function askHiddenResponse(OutputInterface $output, $question, $fallback = true)
     {
-        if (defined('PHP_WINDOWS_VERSION_BUILD')) {
+        if ('\\' === DIRECTORY_SEPARATOR) {
             $exe = __DIR__.'/../Resources/bin/hiddeninput.exe';
 
             // handle code running from a phar
@@ -358,7 +358,6 @@ class DialogHelper extends Helper
      *
      * @throws \Exception        When any of the validators return an error
      * @throws \RuntimeException In case the fallback is deactivated and the response can not be hidden
-     *
      */
     public function askHiddenResponseAndValidate(OutputInterface $output, $question, $validator, $attempts = false, $fallback = true)
     {
@@ -384,9 +383,9 @@ class DialogHelper extends Helper
     }
 
     /**
-     * Returns the helper's input stream
+     * Returns the helper's input stream.
      *
-     * @return string
+     * @return resource|null The input stream or null if the default STDIN is used
      */
     public function getInputStream()
     {
@@ -402,7 +401,7 @@ class DialogHelper extends Helper
     }
 
     /**
-     * Return a valid Unix shell
+     * Return a valid Unix shell.
      *
      * @return string|bool The valid shell name, false in case no valid shell is found
      */
@@ -440,12 +439,12 @@ class DialogHelper extends Helper
     }
 
     /**
-     * Validate an attempt
+     * Validate an attempt.
      *
      * @param callable        $interviewer A callable that will ask for a question and return the result
      * @param OutputInterface $output      An Output instance
      * @param callable        $validator   A PHP callback
-     * @param int|false       $attempts    Max number of times to ask before giving up ; false will ask infinitely
+     * @param int|false       $attempts    Max number of times to ask before giving up; false will ask infinitely
      *
      * @return string The validated response
      *
@@ -453,18 +452,18 @@ class DialogHelper extends Helper
      */
     private function validateAttempts($interviewer, OutputInterface $output, $validator, $attempts)
     {
-        $error = null;
+        $e = null;
         while (false === $attempts || $attempts--) {
-            if (null !== $error) {
-                $output->writeln($this->getHelperSet()->get('formatter')->formatBlock($error->getMessage(), 'error'));
+            if (null !== $e) {
+                $output->writeln($this->getHelperSet()->get('formatter')->formatBlock($e->getMessage(), 'error'));
             }
 
             try {
                 return call_user_func($validator, $interviewer());
-            } catch (\Exception $error) {
+            } catch (\Exception $e) {
             }
         }
 
-        throw $error;
+        throw $e;
     }
 }

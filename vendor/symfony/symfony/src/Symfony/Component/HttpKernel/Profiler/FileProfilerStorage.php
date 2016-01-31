@@ -1,4 +1,5 @@
 <?php
+
 /*
  * This file is part of the Symfony package.
  *
@@ -40,8 +41,8 @@ class FileProfilerStorage implements ProfilerStorageInterface
         }
         $this->folder = substr($dsn, 5);
 
-        if (!is_dir($this->folder)) {
-            mkdir($this->folder, 0777, true);
+        if (!is_dir($this->folder) && false === @mkdir($this->folder, 0777, true) && !is_dir($this->folder)) {
+            throw new \RuntimeException(sprintf('Unable to create the storage directory (%s).', $this->folder));
         }
     }
 
@@ -124,6 +125,8 @@ class FileProfilerStorage implements ProfilerStorageInterface
 
     /**
      * {@inheritdoc}
+     *
+     * @throws \RuntimeException
      */
     public function write(Profile $profile)
     {
@@ -133,8 +136,8 @@ class FileProfilerStorage implements ProfilerStorageInterface
         if (!$profileIndexed) {
             // Create directory
             $dir = dirname($file);
-            if (!is_dir($dir)) {
-                mkdir($dir, 0777, true);
+            if (!is_dir($dir) && false === @mkdir($dir, 0777, true) && !is_dir($dir)) {
+                throw new \RuntimeException(sprintf('Unable to create the storage directory (%s).', $dir));
             }
         }
 

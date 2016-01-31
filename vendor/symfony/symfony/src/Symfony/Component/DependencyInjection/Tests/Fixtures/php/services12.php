@@ -9,26 +9,30 @@ use Symfony\Component\DependencyInjection\Exception\RuntimeException;
 use Symfony\Component\DependencyInjection\ParameterBag\FrozenParameterBag;
 
 /**
- * ProjectServiceContainer
+ * ProjectServiceContainer.
  *
  * This class has been auto-generated
  * by the Symfony Dependency Injection Component.
  */
 class ProjectServiceContainer extends Container
 {
+    private $parameters;
+    private $targetDirs = array();
+
     /**
      * Constructor.
      */
     public function __construct()
     {
+        $dir = __DIR__;
+        for ($i = 1; $i <= 5; ++$i) {
+            $this->targetDirs[$i] = $dir = dirname($dir);
+        }
         $this->parameters = $this->getDefaultParameters();
 
         $this->services =
         $this->scopedServices =
         $this->scopeStacks = array();
-
-        $this->set('service_container', $this);
-
         $this->scopes = array();
         $this->scopeChildren = array();
         $this->methodMap = array(
@@ -48,7 +52,7 @@ class ProjectServiceContainer extends Container
      */
     protected function getTestService()
     {
-        return $this->services['test'] = new \stdClass(('wiz'.dirname(__DIR__)), array(('wiz'.dirname(__DIR__)) => ('wiz'.dirname(__DIR__))));
+        return $this->services['test'] = new \stdClass(('wiz'.$this->targetDirs[1]), array(('wiz'.$this->targetDirs[1]) => ($this->targetDirs[2].'/')));
     }
 
     /**
@@ -102,9 +106,10 @@ class ProjectServiceContainer extends Container
     protected function getDefaultParameters()
     {
         return array(
-            'foo' => ('wiz'.dirname(__DIR__)),
+            'foo' => ('wiz'.$this->targetDirs[1]),
             'bar' => __DIR__,
             'baz' => (__DIR__.'/PhpDumperTest.php'),
+            'buz' => $this->targetDirs[2],
         );
     }
 }

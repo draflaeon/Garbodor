@@ -22,7 +22,7 @@ use Symfony\Component\Serializer\Exception\LogicException;
 use Symfony\Component\Serializer\Exception\UnexpectedValueException;
 
 /**
- * Serializer serializes and deserializes data
+ * Serializer serializes and deserializes data.
  *
  * objects are turned into arrays by normalizers
  * arrays are turned into various output formats by encoders
@@ -212,13 +212,13 @@ class Serializer implements SerializerInterface, NormalizerInterface, Denormaliz
     }
 
     /**
-     * Normalizes an object into a set of arrays/scalars
+     * Normalizes an object into a set of arrays/scalars.
      *
      * @param object $object  object to normalize
      * @param string $format  format name, present to give the option to normalizers to act differently based on formats
      * @param array  $context The context data for this particular normalization
      *
-     * @return array|scalar
+     * @return array|string|bool|int|float|null
      *
      * @throws LogicException
      * @throws UnexpectedValueException
@@ -237,7 +237,6 @@ class Serializer implements SerializerInterface, NormalizerInterface, Denormaliz
         foreach ($this->normalizers as $normalizer) {
             if ($normalizer instanceof NormalizerInterface
                 && $normalizer->supportsNormalization($object, $format)) {
-                $this->normalizerCache[$class][$format] = $normalizer;
 
                 return $normalizer->normalize($object, $format, $context);
             }
@@ -247,7 +246,7 @@ class Serializer implements SerializerInterface, NormalizerInterface, Denormaliz
     }
 
     /**
-     * Denormalizes data back into an object of the given class
+     * Denormalizes data back into an object of the given class.
      *
      * @param mixed  $data    data to restore
      * @param string $class   the expected class to instantiate
@@ -272,7 +271,6 @@ class Serializer implements SerializerInterface, NormalizerInterface, Denormaliz
         foreach ($this->normalizers as $normalizer) {
             if ($normalizer instanceof DenormalizerInterface
                 && $normalizer->supportsDenormalization($data, $class, $format)) {
-                $this->denormalizerCache[$class][$format] = $normalizer;
 
                 return $normalizer->denormalize($data, $class, $format, $context);
             }

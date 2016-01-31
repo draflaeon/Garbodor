@@ -28,8 +28,6 @@ use Symfony\Component\Routing\RequestContextAwareInterface;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Tobias Schultze <http://tobion.de>
- *
- * @api
  */
 interface UrlGeneratorInterface extends RequestContextAwareInterface
 {
@@ -45,6 +43,7 @@ interface UrlGeneratorInterface extends RequestContextAwareInterface
 
     /**
      * Generates a relative path based on the current request path, e.g. "../parent-file".
+     *
      * @see UrlGenerator::getRelativePath()
      */
     const RELATIVE_PATH = 'relative';
@@ -80,8 +79,6 @@ interface UrlGeneratorInterface extends RequestContextAwareInterface
      * @throws MissingMandatoryParametersException When some parameters are missing that are mandatory for the route
      * @throws InvalidParameterException           When a parameter value for a placeholder is not correct because
      *                                             it does not match the requirement
-     *
-     * @api
      */
     public function generate($name, $parameters = array(), $referenceType = self::ABSOLUTE_PATH);
 }

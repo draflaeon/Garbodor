@@ -75,14 +75,17 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
             return $value;
         }
 
+        $normalized = array();
+
         foreach ($value as $k => $v) {
             if (false !== strpos($k, '-') && false === strpos($k, '_') && !array_key_exists($normalizedKey = str_replace('-', '_', $k), $value)) {
-                $value[$normalizedKey] = $v;
-                unset($value[$k]);
+                $normalized[$normalizedKey] = $v;
+            } else {
+                $normalized[$k] = $v;
             }
         }
 
-        return $value;
+        return $normalized;
     }
 
     /**
@@ -256,7 +259,7 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
 
             try {
                 $value[$name] = $child->finalize($value[$name]);
-            } catch (UnsetKeyException $unset) {
+            } catch (UnsetKeyException $e) {
                 unset($value[$name]);
             }
         }
@@ -312,7 +315,7 @@ class ArrayNode extends BaseNode implements PrototypeNodeInterface
 
         // if extra fields are present, throw exception
         if (count($value) && !$this->ignoreExtraKeys) {
-            $msg = sprintf('Unrecognized options "%s" under "%s"', implode(', ', array_keys($value)), $this->getPath());
+            $msg = sprintf('Unrecognized option%s "%s" under "%s"', 1 === count($value) ? '' : 's', implode(', ', array_keys($value)), $this->getPath());
             $ex = new InvalidConfigurationException($msg);
             $ex->setPath($this->getPath());
 

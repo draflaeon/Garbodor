@@ -155,7 +155,6 @@ class SecurityExtension extends Extension
      * @param array            $config    An array of configuration settings
      * @param ContainerBuilder $container A ContainerBuilder instance
      */
-
     private function createRoleHierarchy($config, ContainerBuilder $container)
     {
         if (!isset($config['role_hierarchy'])) {
@@ -350,7 +349,7 @@ class SecurityExtension extends Extension
         $listeners[] = new Reference('security.access_listener');
 
         // Exception listener
-        $exceptionListener = new Reference($this->createExceptionListener($container, $firewall, $id, $configuredEntryPoint ?: $defaultEntryPoint));
+        $exceptionListener = new Reference($this->createExceptionListener($container, $firewall, $id, $configuredEntryPoint ?: $defaultEntryPoint, $firewall['stateless']));
 
         return array($matcher, $listeners, $exceptionListener);
     }
@@ -491,10 +490,11 @@ class SecurityExtension extends Extension
     }
 
     // Parses a <provider> tag and returns the id for the related user provider service
-    private function createUserDaoProvider($name, $provider, ContainerBuilder $container, $master = true)
+    private function createUserDaoProvider($name, $provider, ContainerBuilder $container)
     {
         $name = $this->getUserProviderId(strtolower($name));
 
+        // Doctrine Entity and In-memory DAO provider are managed by factories
         foreach ($this->userProviderFactories as $factory) {
             $key = str_replace('-', '_', $factory->getKey());
 
@@ -521,37 +521,12 @@ class SecurityExtension extends Extension
 
             $container
                 ->setDefinition($name, new DefinitionDecorator('security.user.provider.chain'))
-                ->addArgument($providers)
-            ;
+                ->addArgument($providers);
 
             return $name;
         }
 
-        // Doctrine Entity DAO provider
-        if (isset($provider['entity'])) {
-            $container
-                ->setDefinition($name, new DefinitionDecorator('security.user.provider.entity'))
-                ->addArgument($provider['entity']['class'])
-                ->addArgument($provider['entity']['property'])
-            ;
-
-            return $name;
-        }
-
-        // In-memory DAO provider
-        $definition = $container->setDefinition($name, new DefinitionDecorator('security.user.provider.in_memory'));
-        foreach ($provider['users'] as $username => $user) {
-            $userId = $name.'_'.$username;
-
-            $container
-                ->setDefinition($userId, new DefinitionDecorator('security.user.provider.in_memory.user'))
-                ->setArguments(array($username, (string) $user['password'], $user['roles']))
-            ;
-
-            $definition->addMethodCall('createUser', array(new Reference($userId)));
-        }
-
-        return $name;
+        throw new InvalidConfigurationException(sprintf('Unable to create definition for "%s" user provider', $name));
     }
 
     private function getUserProviderId($name)
@@ -559,12 +534,13 @@ class SecurityExtension extends Extension
         return 'security.user.provider.concrete.'.$name;
     }
 
-    private function createExceptionListener($container, $config, $id, $defaultEntryPoint)
+    private function createExceptionListener($container, $config, $id, $defaultEntryPoint, $stateless)
     {
         $exceptionListenerId = 'security.exception_listener.'.$id;
         $listener = $container->setDefinition($exceptionListenerId, new DefinitionDecorator('security.exception_listener'));
         $listener->replaceArgument(3, $id);
         $listener->replaceArgument(4, null === $defaultEntryPoint ? null : new Reference($defaultEntryPoint));
+        $listener->replaceArgument(8, $stateless);
 
         // access denied handler setup
         if (isset($config['access_denied_handler'])) {
@@ -592,15 +568,15 @@ class SecurityExtension extends Extension
 
     private function createRequestMatcher($container, $path = null, $host = null, $methods = array(), $ip = null, array $attributes = array())
     {
+        if ($methods) {
+            $methods = array_map('strtoupper', (array) $methods);
+        }
+
         $serialized = serialize(array($path, $host, $methods, $ip, $attributes));
         $id = 'security.request_matcher.'.md5($serialized).sha1($serialized);
 
         if (isset($this->requestMatchers[$id])) {
             return $this->requestMatchers[$id];
-        }
-
-        if ($methods) {
-            $methods = array_map('strtoupper', (array) $methods);
         }
 
         // only add arguments that are necessary

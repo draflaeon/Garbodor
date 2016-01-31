@@ -11,6 +11,7 @@
 
 namespace Symfony\Bridge\Doctrine\Tests\Validator\Constraints;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
@@ -22,7 +23,6 @@ use Symfony\Bridge\Doctrine\Tests\Fixtures\DoubleNameEntity;
 use Symfony\Bridge\Doctrine\Tests\Fixtures\AssociationEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntityValidator;
-use Symfony\Component\Validator\Validator;
 use Doctrine\ORM\Tools\SchemaTool;
 
 /**
@@ -239,6 +239,37 @@ class UniqueEntityValidatorTest extends AbstractConstraintValidatorTest
             ->assertRaised();
     }
 
+    public function testValidateUniquenessWithValidCustomErrorPath()
+    {
+        $constraint = new UniqueEntity(array(
+            'message' => 'myMessage',
+            'fields' => array('name', 'name2'),
+            'em' => self::EM_NAME,
+            'errorPath' => 'name2',
+        ));
+
+        $entity1 = new DoubleNameEntity(1, 'Foo', 'Bar');
+        $entity2 = new DoubleNameEntity(2, 'Foo', 'Bar');
+
+        $this->validator->validate($entity1, $constraint);
+
+        $this->assertNoViolation();
+
+        $this->em->persist($entity1);
+        $this->em->flush();
+
+        $this->validator->validate($entity1, $constraint);
+
+        $this->assertNoViolation();
+
+        $this->validator->validate($entity2, $constraint);
+
+        $this->buildViolation('myMessage')
+            ->atPath('property.path.name2')
+            ->setInvalidValue('Bar')
+            ->assertRaised();
+    }
+
     public function testValidateUniquenessUsingCustomRepositoryMethod()
     {
         $constraint = new UniqueEntity(array(
@@ -301,8 +332,43 @@ class UniqueEntityValidatorTest extends AbstractConstraintValidatorTest
     }
 
     /**
-     * @group GH-1635
+     * @dataProvider resultTypesProvider
      */
+    public function testValidateResultTypes($entity1, $result)
+    {
+        $constraint = new UniqueEntity(array(
+            'message' => 'myMessage',
+            'fields' => array('name'),
+            'em' => self::EM_NAME,
+            'repositoryMethod' => 'findByCustom',
+        ));
+
+        $repository = $this->createRepositoryMock();
+        $repository->expects($this->once())
+            ->method('findByCustom')
+            ->will($this->returnValue($result))
+        ;
+        $this->em = $this->createEntityManagerMock($repository);
+        $this->registry = $this->createRegistryMock($this->em);
+        $this->validator = $this->createValidator();
+        $this->validator->initialize($this->context);
+
+        $this->validator->validate($entity1, $constraint);
+
+        $this->assertNoViolation();
+    }
+
+    public function resultTypesProvider()
+    {
+        $entity = new SingleIntIdEntity(1, 'foo');
+
+        return array(
+            array($entity, array($entity)),
+            array($entity, new \ArrayIterator(array($entity))),
+            array($entity, new ArrayCollection(array($entity))),
+        );
+    }
+
     public function testAssociatedEntity()
     {
         $constraint = new UniqueEntity(array(
@@ -359,7 +425,6 @@ class UniqueEntityValidatorTest extends AbstractConstraintValidatorTest
     /**
      * @expectedException \Symfony\Component\Validator\Exception\ConstraintDefinitionException
      * @expectedExceptionMessage Associated entities are not allowed to have more than one identifier field
-     * @group GH-1635
      */
     public function testAssociatedCompositeEntity()
     {
@@ -369,7 +434,7 @@ class UniqueEntityValidatorTest extends AbstractConstraintValidatorTest
             'em' => self::EM_NAME,
         ));
 
-        $composite = new CompositeIntIdEntity(1, 1, "test");
+        $composite = new CompositeIntIdEntity(1, 1, 'test');
         $associated = new AssociationEntity();
         $associated->composite = $composite;
 

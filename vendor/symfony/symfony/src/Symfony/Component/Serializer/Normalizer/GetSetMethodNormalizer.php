@@ -41,7 +41,7 @@ class GetSetMethodNormalizer extends SerializerAwareNormalizer implements Normal
     protected $camelizedAttributes = array();
 
     /**
-     * Set normalization callbacks
+     * Set normalization callbacks.
      *
      * @param array $callbacks help normalize the result
      *
@@ -58,7 +58,7 @@ class GetSetMethodNormalizer extends SerializerAwareNormalizer implements Normal
     }
 
     /**
-     * Set ignored attributes for normalization
+     * Set ignored attributes for normalization.
      *
      * @param array $ignoredAttributes
      */
@@ -68,7 +68,7 @@ class GetSetMethodNormalizer extends SerializerAwareNormalizer implements Normal
     }
 
     /**
-     * Set attributes to be camelized on denormalize
+     * Set attributes to be camelized on denormalize.
      *
      * @param array $camelizedAttributes
      */
@@ -136,11 +136,19 @@ class GetSetMethodNormalizer extends SerializerAwareNormalizer implements Normal
             foreach ($constructorParameters as $constructorParameter) {
                 $paramName = lcfirst($this->formatAttribute($constructorParameter->name));
 
-                if (isset($normalizedData[$paramName])) {
+                if (method_exists($constructorParameter, 'isVariadic') && $constructorParameter->isVariadic()) {
+                    if (isset($normalizedData[$paramName])) {
+                        if (!is_array($normalizedData[$paramName])) {
+                            throw new RuntimeException(sprintf('Cannot create an instance of %s from serialized data because the variadic parameter %s can only accept an array.', $class, $constructorParameter->name));
+                        }
+
+                        $params = array_merge($params, $normalizedData[$paramName]);
+                    }
+                } elseif (isset($normalizedData[$paramName])) {
                     $params[] = $normalizedData[$paramName];
                     // don't run set for a parameter passed to the constructor
                     unset($normalizedData[$paramName]);
-                } elseif ($constructorParameter->isOptional()) {
+                } elseif ($constructorParameter->isDefaultValueAvailable()) {
                     $params[] = $constructorParameter->getDefaultValue();
                 } else {
                     throw new RuntimeException(
@@ -170,7 +178,7 @@ class GetSetMethodNormalizer extends SerializerAwareNormalizer implements Normal
     /**
      * Format attribute name to access parameters or methods
      * As option, if attribute name is found on camelizedAttributes array
-     * returns attribute name in camelcase format
+     * returns attribute name in camelcase format.
      *
      * @param string $attributeName
      *
@@ -234,10 +242,10 @@ class GetSetMethodNormalizer extends SerializerAwareNormalizer implements Normal
      */
     private function isGetMethod(\ReflectionMethod $method)
     {
-        return (
+        return
             0 === strpos($method->name, 'get') &&
             3 < strlen($method->name) &&
             0 === $method->getNumberOfRequiredParameters()
-        );
+        ;
     }
 }

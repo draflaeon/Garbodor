@@ -41,10 +41,9 @@ class Filesystem
 
         $this->mkdir(dirname($targetFile));
 
-        if (!$override && is_file($targetFile) && null === parse_url($originFile, PHP_URL_HOST)) {
+        $doCopy = true;
+        if (!$override && null === parse_url($originFile, PHP_URL_HOST) && is_file($targetFile)) {
             $doCopy = filemtime($originFile) > filemtime($targetFile);
-        } else {
-            $doCopy = true;
         }
 
         if ($doCopy) {
@@ -152,7 +151,7 @@ class Filesystem
                 }
             } else {
                 // https://bugs.php.net/bug.php?id=52176
-                if (defined('PHP_WINDOWS_VERSION_MAJOR') && is_dir($file)) {
+                if ('\\' === DIRECTORY_SEPARATOR && is_dir($file)) {
                     if (true !== @rmdir($file)) {
                         throw new IOException(sprintf('Failed to remove file %s', $file));
                     }
@@ -178,17 +177,17 @@ class Filesystem
     public function chmod($files, $mode, $umask = 0000, $recursive = false)
     {
         foreach ($this->toIterator($files) as $file) {
-            if ($recursive && is_dir($file) && !is_link($file)) {
-                $this->chmod(new \FilesystemIterator($file), $mode, $umask, true);
-            }
             if (true !== @chmod($file, $mode & ~$umask)) {
                 throw new IOException(sprintf('Failed to chmod file %s', $file));
+            }
+            if ($recursive && is_dir($file) && !is_link($file)) {
+                $this->chmod(new \FilesystemIterator($file), $mode, $umask, true);
             }
         }
     }
 
     /**
-     * Change the owner of an array of files or directories
+     * Change the owner of an array of files or directories.
      *
      * @param string|array|\Traversable $files     A filename, an array of files, or a \Traversable instance to change owner
      * @param string                    $user      The new owner user name
@@ -215,7 +214,7 @@ class Filesystem
     }
 
     /**
-     * Change the group of an array of files or directories
+     * Change the group of an array of files or directories.
      *
      * @param string|array|\Traversable $files     A filename, an array of files, or a \Traversable instance to change group
      * @param string                    $group     The group name
@@ -230,7 +229,7 @@ class Filesystem
                 $this->chgrp(new \FilesystemIterator($file), $group, true);
             }
             if (is_link($file) && function_exists('lchgrp')) {
-                if (true !== @lchgrp($file, $group)) {
+                if (true !== @lchgrp($file, $group) || (defined('HHVM_VERSION') && !posix_getgrnam($group))) {
                     throw new IOException(sprintf('Failed to chgrp file %s', $file));
                 }
             } else {
@@ -274,7 +273,7 @@ class Filesystem
      */
     public function symlink($originDir, $targetDir, $copyOnWindows = false)
     {
-        if (!function_exists('symlink') && $copyOnWindows) {
+        if ($copyOnWindows && !function_exists('symlink')) {
             $this->mirror($originDir, $targetDir);
 
             return;
@@ -291,21 +290,19 @@ class Filesystem
             }
         }
 
-        if (!$ok) {
-            if (true !== @symlink($originDir, $targetDir)) {
-                $report = error_get_last();
-                if (is_array($report)) {
-                    if (defined('PHP_WINDOWS_VERSION_MAJOR') && false !== strpos($report['message'], 'error code(1314)')) {
-                        throw new IOException('Unable to create symlink due to error code 1314: \'A required privilege is not held by the client\'. Do you have the required Administrator-rights?');
-                    }
+        if (!$ok && true !== @symlink($originDir, $targetDir)) {
+            $report = error_get_last();
+            if (is_array($report)) {
+                if ('\\' === DIRECTORY_SEPARATOR && false !== strpos($report['message'], 'error code(1314)')) {
+                    throw new IOException('Unable to create symlink due to error code 1314: \'A required privilege is not held by the client\'. Do you have the required Administrator-rights?');
                 }
-                throw new IOException(sprintf('Failed to create symbolic link from %s to %s', $originDir, $targetDir));
             }
+            throw new IOException(sprintf('Failed to create symbolic link from %s to %s', $originDir, $targetDir));
         }
     }
 
     /**
-     * Given an existing path, convert it to a path relative to a given starting path
+     * Given an existing path, convert it to a path relative to a given starting path.
      *
      * @param string $endPath   Absolute path of target
      * @param string $startPath Absolute path where traversal begins
@@ -315,9 +312,9 @@ class Filesystem
     public function makePathRelative($endPath, $startPath)
     {
         // Normalize separators on Windows
-        if (defined('PHP_WINDOWS_VERSION_MAJOR')) {
-            $endPath = strtr($endPath, '\\', '/');
-            $startPath = strtr($startPath, '\\', '/');
+        if ('\\' === DIRECTORY_SEPARATOR) {
+            $endPath = str_replace('\\', '/', $endPath);
+            $startPath = str_replace('\\', '/', $startPath);
         }
 
         // Split the paths into arrays
@@ -327,21 +324,26 @@ class Filesystem
         // Find for which directory the common path stops
         $index = 0;
         while (isset($startPathArr[$index]) && isset($endPathArr[$index]) && $startPathArr[$index] === $endPathArr[$index]) {
-            $index++;
+            ++$index;
         }
 
         // Determine how deep the start path is relative to the common path (ie, "web/bundles" = 2 levels)
         $depth = count($startPathArr) - $index;
 
-        // Repeated "../" for each level need to reach the common path
-        $traverser = str_repeat('../', $depth);
+        // When we need to traverse from the start, and we are starting from a root path, don't add '../'
+        if ('/' === $startPath[0] && 0 === $index && 1 === $depth) {
+            $traverser = '';
+        } else {
+            // Repeated "../" for each level need to reach the common path
+            $traverser = str_repeat('../', $depth);
+        }
 
         $endPathRemainder = implode('/', array_slice($endPathArr, $index));
 
         // Construct $endPath from traversing to the common path, then to the remaining $endPath
-        $relativePath = $traverser.(strlen($endPathRemainder) > 0 ? $endPathRemainder.'/' : '');
+        $relativePath = $traverser.('' !== $endPathRemainder ? $endPathRemainder.'/' : '');
 
-        return (strlen($relativePath) === 0) ? './' : $relativePath;
+        return '' === $relativePath ? './' : $relativePath;
     }
 
     /**
@@ -426,17 +428,13 @@ class Filesystem
      */
     public function isAbsolutePath($file)
     {
-        if (strspn($file, '/\\', 0, 1)
+        return strspn($file, '/\\', 0, 1)
             || (strlen($file) > 3 && ctype_alpha($file[0])
                 && substr($file, 1, 1) === ':'
-                && (strspn($file, '/\\', 2, 1))
+                && strspn($file, '/\\', 2, 1)
             )
             || null !== parse_url($file, PHP_URL_SCHEME)
-        ) {
-            return true;
-        }
-
-        return false;
+        ;
     }
 
     /**
@@ -479,9 +477,9 @@ class Filesystem
             throw new IOException(sprintf('Failed to write file "%s".', $filename));
         }
 
-        $this->rename($tmpFile, $filename, true);
         if (null !== $mode) {
-            $this->chmod($filename, $mode);
+            $this->chmod($tmpFile, $mode);
         }
+        $this->rename($tmpFile, $filename, true);
     }
 }

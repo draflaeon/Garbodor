@@ -16,8 +16,6 @@ namespace Symfony\Component\Routing;
  *
  * @author Fabien Potencier <fabien@symfony.com>
  * @author Tobias Schultze <http://tobion.de>
- *
- * @api
  */
 class Route implements \Serializable
 {
@@ -75,8 +73,6 @@ class Route implements \Serializable
      * @param string       $host         The host pattern to match
      * @param string|array $schemes      A required URI scheme or an array of restricted schemes
      * @param string|array $methods      A required HTTP method or an array of restricted methods
-     *
-     * @api
      */
     public function __construct($path, array $defaults = array(), array $requirements = array(), array $options = array(), $host = '', $schemes = array(), $methods = array())
     {
@@ -252,10 +248,22 @@ class Route implements \Serializable
     }
 
     /**
+     * Checks if a scheme requirement has been set.
+     *
+     * @param string $scheme
+     *
+     * @return bool true if the scheme requirement exists, otherwise false
+     */
+    public function hasScheme($scheme)
+    {
+        return in_array(strtolower($scheme), $this->schemes, true);
+    }
+
+    /**
      * Returns the uppercased HTTP methods this route is restricted to.
      * So an empty array means that any method is allowed.
      *
-     * @return array The schemes
+     * @return array The methods
      */
     public function getMethods()
     {
@@ -344,8 +352,6 @@ class Route implements \Serializable
      * @param mixed  $value The option value
      *
      * @return Route The current Route instance
-     *
-     * @api
      */
     public function setOption($name, $value)
     {
@@ -368,7 +374,7 @@ class Route implements \Serializable
     }
 
     /**
-     * Checks if an option has been set
+     * Checks if an option has been set.
      *
      * @param string $name An option name
      *
@@ -455,8 +461,6 @@ class Route implements \Serializable
      * @param mixed  $default The default value
      *
      * @return Route The current Route instance
-     *
-     * @api
      */
     public function setDefault($name, $default)
     {
@@ -542,8 +546,6 @@ class Route implements \Serializable
      * @param string $regex The regex
      *
      * @return Route The current Route instance
-     *
-     * @api
      */
     public function setRequirement($key, $regex)
     {

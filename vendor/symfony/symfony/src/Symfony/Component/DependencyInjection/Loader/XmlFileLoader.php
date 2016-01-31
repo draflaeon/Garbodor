@@ -48,7 +48,7 @@ class XmlFileLoader extends FileLoader
         $this->parseImports($xml, $path);
 
         // parameters
-        $this->parseParameters($xml, $path);
+        $this->parseParameters($xml);
 
         // extensions
         $this->loadFromExtensions($xml);
@@ -66,12 +66,11 @@ class XmlFileLoader extends FileLoader
     }
 
     /**
-     * Parses parameters
+     * Parses parameters.
      *
      * @param SimpleXMLElement $xml
-     * @param string           $file
      */
-    private function parseParameters(SimpleXMLElement $xml, $file)
+    private function parseParameters(SimpleXMLElement $xml)
     {
         if (!$xml->parameters) {
             return;
@@ -81,7 +80,7 @@ class XmlFileLoader extends FileLoader
     }
 
     /**
-     * Parses imports
+     * Parses imports.
      *
      * @param SimpleXMLElement $xml
      * @param string           $file
@@ -92,14 +91,15 @@ class XmlFileLoader extends FileLoader
             return;
         }
 
+        $defaultDirectory = dirname($file);
         foreach ($imports as $import) {
-            $this->setCurrentDir(dirname($file));
+            $this->setCurrentDir($defaultDirectory);
             $this->import((string) $import['resource'], null, (bool) $import->getAttributeAsPhp('ignore-errors'), $file);
         }
     }
 
     /**
-     * Parses multiple definitions
+     * Parses multiple definitions.
      *
      * @param SimpleXMLElement $xml
      * @param string           $file
@@ -116,7 +116,7 @@ class XmlFileLoader extends FileLoader
     }
 
     /**
-     * Parses an individual Definition
+     * Parses an individual Definition.
      *
      * @param string           $id
      * @param SimpleXMLElement $service
@@ -215,7 +215,7 @@ class XmlFileLoader extends FileLoader
     }
 
     /**
-     * Processes anonymous services
+     * Processes anonymous services.
      *
      * @param SimpleXMLElement $xml
      * @param string           $file

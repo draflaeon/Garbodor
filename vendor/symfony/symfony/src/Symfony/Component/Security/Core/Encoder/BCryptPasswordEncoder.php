@@ -19,6 +19,8 @@ use Symfony\Component\Security\Core\Exception\BadCredentialsException;
  */
 class BCryptPasswordEncoder extends BasePasswordEncoder
 {
+    const MAX_PASSWORD_LENGTH = 72;
+
     /**
      * @var string
      */
@@ -52,6 +54,7 @@ class BCryptPasswordEncoder extends BasePasswordEncoder
      * It doesn't work with PHP versions lower than 5.3.7, since
      * the password compat library uses CRYPT_BLOWFISH hash type with
      * the "$2y$" salt prefix (which is not available in the early PHP versions).
+     *
      * @see https://github.com/ircmaxell/password_compat/issues/10#issuecomment-11203833
      *
      * It is almost best to **not** pass a salt and let PHP generate one for you.

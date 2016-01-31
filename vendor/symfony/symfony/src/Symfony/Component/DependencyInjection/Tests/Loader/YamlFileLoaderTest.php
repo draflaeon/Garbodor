@@ -13,7 +13,6 @@ namespace Symfony\Component\DependencyInjection\Tests\Loader;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
-use Symfony\Component\Config\Loader\Loader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
@@ -24,17 +23,6 @@ use Symfony\Component\Config\FileLocator;
 class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
 {
     protected static $fixturesPath;
-
-    protected function setUp()
-    {
-        if (!class_exists('Symfony\Component\Config\Loader\Loader')) {
-            $this->markTestSkipped('The "Config" component is not available');
-        }
-
-        if (!class_exists('Symfony\Component\Yaml\Yaml')) {
-            $this->markTestSkipped('The "Yaml" component is not available');
-        }
-    }
 
     public static function setUpBeforeClass()
     {
@@ -99,6 +87,7 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
             array('bad_services'),
             array('bad_service'),
             array('bad_calls'),
+            array('bad_format'),
         );
     }
 
@@ -190,14 +179,12 @@ class YamlFileLoaderTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    /**
-     * @covers Symfony\Component\DependencyInjection\Loader\YamlFileLoader::supports
-     */
     public function testSupports()
     {
         $loader = new YamlFileLoader(new ContainerBuilder(), new FileLocator());
 
         $this->assertTrue($loader->supports('foo.yml'), '->supports() returns true if the resource is loadable');
+        $this->assertTrue($loader->supports('foo.yaml'), '->supports() returns true if the resource is loadable');
         $this->assertFalse($loader->supports('foo.foo'), '->supports() returns true if the resource is loadable');
     }
 

@@ -8,4 +8,8 @@ $baseDir = dirname($vendorDir);
 return array(
     'Symfony\\Bundle\\SwiftmailerBundle\\' => array($vendorDir . '/symfony/swiftmailer-bundle'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
+    'Incenteev\\ParameterHandler\\' => array($vendorDir . '/incenteev/composer-parameter-handler'),
+    'Doctrine\\Common\\Cache\\' => array($vendorDir . '/doctrine/cache/lib/Doctrine/Common/Cache'),
+    'Doctrine\\Common\\' => array($vendorDir . '/doctrine/common/lib/Doctrine/Common'),
+    'Doctrine\\Bundle\\FixturesBundle\\' => array($vendorDir . '/doctrine/doctrine-fixtures-bundle'),
 );
