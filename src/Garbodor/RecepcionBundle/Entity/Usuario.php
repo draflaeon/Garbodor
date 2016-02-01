@@ -2,6 +2,7 @@
 
 namespace Garbodor\RecepcionBundle\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Usuario
+class Usuario implements UserInterface
 {
     /**
      * @var integer
@@ -69,7 +70,21 @@ class Usuario
      * @ORM\Column(name="salt", type="string", length=255)
      */
     private $salt;
-
+    
+    function eraseCredentials()
+    {
+        
+    }
+    
+    function getRoles() 
+    {
+        return array('ROLE_ADMIN');
+    }
+    
+    function getUsername()
+    {
+        return $this->getRut();
+    }
 
     /**
      * Get id

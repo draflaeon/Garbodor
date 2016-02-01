@@ -1,3 +1,10 @@
 recepcion_homepage:
     path:     /hello/{name}
     defaults: { _controller: RecepcionBundle:Default:index }
+sitio_login:
+    path: /inicio_sesion/
+    defaults: { _controller: RecepcionBundle:Default:inicio }
+sitio_login_check:
+    path: /login_check
+sitio_login_logout:
+    path: /logout

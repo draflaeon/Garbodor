@@ -27,6 +27,12 @@ class Usuarios implements FixtureInterface, ContainerAwareInterface
                 "apellido" => "Gómez",
                 "rol" => "admin",
                 "password" => "1234"),
+            array("rut" => "17949136", 
+                "digitoVerificador" => "2", 
+                "nombre" => "Bastian", 
+                "apellido" => "Hernandez",
+                "rol" => "admin",
+                "password" => "1234"),
         );
         
         foreach ($usuarios as $us)
