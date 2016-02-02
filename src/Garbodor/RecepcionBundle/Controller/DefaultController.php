@@ -3,6 +3,7 @@
 namespace Garbodor\RecepcionBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\SecurityContext;
 
 class DefaultController extends Controller
 {
@@ -13,7 +14,13 @@ class DefaultController extends Controller
     
     public function inicioAction()
     {
+        $peticion = $this->getRequest();
+        $session = $peticion->getSession();
+        $error = $peticion->attributes->get(SecurityContext::AUTHENTICATION_ERROR, 
+                                            $session->get(SecurityContext::AUTHENTICATION_ERROR));
         $mensaje = "Bienvenidos, por favor ingrese sus datos.";
-        return $this->render('RecepcionBundle:Default:inicio.html.twig', array("mensaje" => $mensaje));
+        
+        return $this->render('RecepcionBundle:Default:inicio.html.twig', array("mensaje" => $mensaje,
+            "error" => $error));
     }
 }
